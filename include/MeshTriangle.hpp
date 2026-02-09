@@ -271,6 +271,13 @@ private:
         for (size_t i = 0; i < obj_materials.size(); ++i) {
             const auto& m = obj_materials[i];
             Vector3f kd(m.diffuse[0], m.diffuse[1], m.diffuse[2]);
+            if (obj_path_.find("veach-mis") != std::string::npos) {
+                bool is_specular_like = (m.specular[0] > 0.0f || m.specular[1] > 0.0f || m.specular[2] > 0.0f)
+                                        && (kd.x == 0.0f && kd.y == 0.0f && kd.z == 0.0f);
+                if (is_specular_like) {
+                    kd = Vector3f(0.5f, 0.5f, 0.5f); // 或者更亮一点
+                }
+            }
             Material* mat = new Material(kd, Vector3f(0.0f), MaterialType::DIFFUSE);
 
             // 根据场景和材质名设置 emission
@@ -290,6 +297,16 @@ private:
                     mat->m_emission = Vector3f(500.0f, 200.0f, 200.0f);
                     mat->m_two_sided = true;
                 }
+            } else if (obj_path_.find("living-room") != std::string::npos) {
+                if (m.name == "Light1") {
+                    mat->m_emission = Vector3f(10.0f, 8.0f, 5.0f);
+                    mat->m_two_sided = true;
+                }
+            }
+
+            if (!m.diffuse_texname.empty()) {
+                std::string tex_path = basedir + "/" + m.diffuse_texname;
+                mat->loadTexture(tex_path);
             }
 
             mtlname_to_id[m.name] = static_cast<int>(i);
@@ -309,12 +326,21 @@ private:
                 }
 
                 Vector3f v[3];
+                Vector2f uv[3];
                 for (size_t k = 0; k < 3; ++k) {
                     tinyobj::index_t idx = mesh.indices[index_offset + k];
                     float vx = attrib.vertices[3 * idx.vertex_index + 0];
                     float vy = attrib.vertices[3 * idx.vertex_index + 1];
                     float vz = attrib.vertices[3 * idx.vertex_index + 2];
                     v[k] = Vector3f(vx, vy, vz);
+
+                    if (idx.texcoord_index >= 0) {
+                        float u = attrib.texcoords[2 * idx.texcoord_index + 0];
+                        float w = attrib.texcoords[2 * idx.texcoord_index + 1];
+                        uv[k] = Vector2f(u, w);
+                    } else {
+                        uv[k] = Vector2f(0.0f, 0.0f);
+                    }
                 }
 
                 int mat_id = -1;
@@ -327,7 +353,16 @@ private:
                     face_mat = materials[mat_id];
                 }
 
-                Triangle* tri = new Triangle(v[0], v[1], v[2], face_mat);
+                // Triangle* tri = new Triangle(v[0], v[1], v[2], face_mat);
+                Triangle* tri;
+                bool has_uv = (mesh.indices[index_offset + 0].texcoord_index >= 0 &&
+                               mesh.indices[index_offset + 1].texcoord_index >= 0 &&
+                               mesh.indices[index_offset + 2].texcoord_index >= 0);
+                if (has_uv) {
+                    tri = new Triangle(v[0], v[1], v[2], uv[0], uv[1], uv[2], face_mat);
+                } else {
+                    tri = new Triangle(v[0], v[1], v[2], face_mat);
+                }
                 triangles.push_back(tri);
 
                 if (face_mat && face_mat->isEmissive()) {

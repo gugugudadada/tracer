@@ -867,6 +867,7 @@ CMakeFiles/path_tracer.dir/src/main.cpp.o: \
   /Users/guyan2/projects/tracer_gpt/include/Scene.hpp \
   /Users/guyan2/projects/tracer_gpt/include/Object.hpp \
   /Users/guyan2/projects/tracer_gpt/include/Material.hpp \
+  /Users/guyan2/projects/tracer_gpt/external/stb_image.h \
   /Users/guyan2/projects/tracer_gpt/include/Triangle.hpp \
   /Users/guyan2/projects/tracer_gpt/include/MeshTriangle.hpp \
   /Users/guyan2/projects/tracer_gpt/external/tiny_obj_loader.h \

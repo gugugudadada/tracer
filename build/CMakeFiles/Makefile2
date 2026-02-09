@@ -88,12 +88,12 @@ clean: CMakeFiles/test_external.dir/clean
 CMakeFiles/path_tracer.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/path_tracer.dir/build.make CMakeFiles/path_tracer.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/path_tracer.dir/build.make CMakeFiles/path_tracer.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/guyan2/projects/tracer_gpt/build/CMakeFiles --progress-num=1,2,3 "Built target path_tracer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/guyan2/projects/tracer_gpt/build/CMakeFiles --progress-num=1,2,3,4 "Built target path_tracer"
 .PHONY : CMakeFiles/path_tracer.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/path_tracer.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/guyan2/projects/tracer_gpt/build/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/guyan2/projects/tracer_gpt/build/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/path_tracer.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/guyan2/projects/tracer_gpt/build/CMakeFiles 0
 .PHONY : CMakeFiles/path_tracer.dir/rule
@@ -105,7 +105,7 @@ path_tracer: CMakeFiles/path_tracer.dir/rule
 # codegen rule for target.
 CMakeFiles/path_tracer.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/path_tracer.dir/build.make CMakeFiles/path_tracer.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/guyan2/projects/tracer_gpt/build/CMakeFiles --progress-num=1,2,3 "Finished codegen for target path_tracer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/guyan2/projects/tracer_gpt/build/CMakeFiles --progress-num=1,2,3,4 "Finished codegen for target path_tracer"
 .PHONY : CMakeFiles/path_tracer.dir/codegen
 
 # clean rule for target.
@@ -120,7 +120,7 @@ CMakeFiles/path_tracer.dir/clean:
 CMakeFiles/test_external.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_external.dir/build.make CMakeFiles/test_external.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_external.dir/build.make CMakeFiles/test_external.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/guyan2/projects/tracer_gpt/build/CMakeFiles --progress-num=4,5 "Built target test_external"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/guyan2/projects/tracer_gpt/build/CMakeFiles --progress-num=5,6 "Built target test_external"
 .PHONY : CMakeFiles/test_external.dir/all
 
 # Build rule for subdir invocation for target.
@@ -137,7 +137,7 @@ test_external: CMakeFiles/test_external.dir/rule
 # codegen rule for target.
 CMakeFiles/test_external.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_external.dir/build.make CMakeFiles/test_external.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/guyan2/projects/tracer_gpt/build/CMakeFiles --progress-num=4,5 "Finished codegen for target test_external"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/guyan2/projects/tracer_gpt/build/CMakeFiles --progress-num=5,6 "Finished codegen for target test_external"
 .PHONY : CMakeFiles/test_external.dir/codegen
 
 # clean rule for target.

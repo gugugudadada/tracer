@@ -166,6 +166,30 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/path_tracer.dir/build.make CMakeFiles/path_tracer.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/stb_image_impl.o: src/stb_image_impl.cpp.o
+.PHONY : src/stb_image_impl.o
+
+# target to build an object file
+src/stb_image_impl.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/path_tracer.dir/build.make CMakeFiles/path_tracer.dir/src/stb_image_impl.cpp.o
+.PHONY : src/stb_image_impl.cpp.o
+
+src/stb_image_impl.i: src/stb_image_impl.cpp.i
+.PHONY : src/stb_image_impl.i
+
+# target to preprocess a source file
+src/stb_image_impl.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/path_tracer.dir/build.make CMakeFiles/path_tracer.dir/src/stb_image_impl.cpp.i
+.PHONY : src/stb_image_impl.cpp.i
+
+src/stb_image_impl.s: src/stb_image_impl.cpp.s
+.PHONY : src/stb_image_impl.s
+
+# target to generate assembly for a file
+src/stb_image_impl.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/path_tracer.dir/build.make CMakeFiles/path_tracer.dir/src/stb_image_impl.cpp.s
+.PHONY : src/stb_image_impl.cpp.s
+
 src/test_external.o: src/test_external.cpp.o
 .PHONY : src/test_external.o
 
@@ -227,6 +251,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/stb_image_impl.o"
+	@echo "... src/stb_image_impl.i"
+	@echo "... src/stb_image_impl.s"
 	@echo "... src/test_external.o"
 	@echo "... src/test_external.i"
 	@echo "... src/test_external.s"

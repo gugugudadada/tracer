@@ -19,6 +19,7 @@ include_directories(
 add_executable(path_tracer
     src/main.cpp
     src/tinyobj_impl.cpp
+    src/stb_image_impl.cpp
 )
 add_executable(test_external
     src/test_external.cpp

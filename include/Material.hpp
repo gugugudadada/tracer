@@ -99,6 +99,7 @@
 #pragma once
 
 #include "global.hpp"
+#include "stb_image.h"
 
 enum class MaterialType {
     DIFFUSE
@@ -123,12 +124,18 @@ public:
     Vector3f eval(const Vector3f& wi,
                   const Vector3f& /*wo*/,
                   const Vector3f& N,
-                  const Vector2f& /*uv*/) const
+                  const Vector2f& uv) const
     {
         if (m_type != MaterialType::DIFFUSE) return Vector3f(0.0f);
         float cos_theta = dot(N, wi);
         if (cos_theta <= 0.0f) return Vector3f(0.0f);
-        return m_color * (1.0f / PI);
+
+        Vector3f albedo = m_color;
+        if (has_texture) {
+            albedo = sampleTexture(uv.x, uv.y);
+        }
+
+        return albedo * (1.0f / PI);
     }
 
     Vector3f sample(const Vector3f& N, float& pdf) const {
@@ -156,8 +163,51 @@ public:
         return cos_theta / PI;
     }
 
+    bool loadTexture(const std::string& path) {
+        if (tex_data) {
+            stbi_image_free(tex_data);
+            tex_data = nullptr;
+        }
+        tex_data = stbi_load(path.c_str(), &tex_width, &tex_height, &tex_channels, 0);
+        if (!tex_data) {
+            std::cerr << "Failed to load texture: " << path << std::endl;
+            has_texture = false;
+            return false;
+        }
+        has_texture = true;
+        tex_path = path;
+        return true;
+    }
+
+    Vector3f sampleTexture(float u, float v) const {
+        if (!has_texture || !tex_data || tex_width <= 0 || tex_height <= 0) {
+            return m_color;
+        }
+
+        u = u - std::floor(u);
+        v = v - std::floor(v);
+        if (u < 0) u += 1.0f;
+        if (v < 0) v += 1.0f;
+
+        int x = static_cast<int>(u * tex_width);
+        int y = static_cast<int>((1.0f - v) * tex_height);
+        if (x >= tex_width) x = tex_width - 1;
+        if (y >= tex_height) y = tex_height - 1;
+
+        int idx = (y * tex_width + x) * tex_channels;
+        float r = tex_data[idx] / 255.0f;
+        float g = tex_data[idx + 1] / 255.0f;
+        float b = tex_data[idx + 2] / 255.0f;
+        return Vector3f(r, g, b);
+    }
+
     Vector3f m_color;
     Vector3f m_emission;
     MaterialType m_type;
     bool m_two_sided;
+
+    bool has_texture = false;
+    unsigned char* tex_data = nullptr;
+    int tex_width = 0, tex_height = 0, tex_channels = 0;
+    std::string tex_path;
 };

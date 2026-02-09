@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/guyan2/projects/tracer_gpt/src/main.cpp" "CMakeFiles/path_tracer.dir/src/main.cpp.o" "gcc" "CMakeFiles/path_tracer.dir/src/main.cpp.o.d"
+  "/Users/guyan2/projects/tracer_gpt/src/stb_image_impl.cpp" "CMakeFiles/path_tracer.dir/src/stb_image_impl.cpp.o" "gcc" "CMakeFiles/path_tracer.dir/src/stb_image_impl.cpp.o.d"
   "/Users/guyan2/projects/tracer_gpt/src/tinyobj_impl.cpp" "CMakeFiles/path_tracer.dir/src/tinyobj_impl.cpp.o" "gcc" "CMakeFiles/path_tracer.dir/src/tinyobj_impl.cpp.o.d"
   )
 

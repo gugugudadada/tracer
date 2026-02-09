@@ -1,1 +1,1 @@
-/usr/bin/c++  -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/path_tracer.dir/src/main.cpp.o CMakeFiles/path_tracer.dir/src/tinyobj_impl.cpp.o -o path_tracer
+/usr/bin/c++  -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/path_tracer.dir/src/main.cpp.o CMakeFiles/path_tracer.dir/src/tinyobj_impl.cpp.o CMakeFiles/path_tracer.dir/src/stb_image_impl.cpp.o -o path_tracer
