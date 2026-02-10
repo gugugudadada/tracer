@@ -1,128 +1,3 @@
-// #pragma once
-
-// #include <string>
-// #include <vector>
-// #include "Object.hpp"
-// #include "Triangle.hpp"
-// #include "Material.hpp"
-// #include "tiny_obj_loader.h"
-
-// class MeshTriangle : public Object {
-// public:
-//     // 构造函数：从 obj_path 加载网格
-//     MeshTriangle(const std::string& obj_path, Material* default_mat = nullptr)
-//         : material(default_mat)
-//     {
-//         loadObj(obj_path);
-//     }
-
-//     // 实现 Object 接口：遍历内部所有三角形
-//     bool intersect(const Ray& ray, HitRecord& rec) const override {
-//         bool hit_anything = false;
-//         for (const auto& tri : triangles) {
-//             if (tri->intersect(ray, rec)) {
-//                 hit_anything = true;
-//             }
-//         }
-//         return hit_anything;
-//     }
-
-//     // 是否发光（这里先简单用材质判断）
-//     bool isEmissive() const override {
-//         if (material) {
-//             return material->isEmissive();
-//         }
-//         return false;
-//     }
-
-//     ~MeshTriangle() override {
-//         for (auto tri : triangles) {
-//             delete tri;
-//         }
-//     }
-
-// private:
-//     std::vector<Triangle*> triangles;
-//     Material* material; // 默认材质（暂不解析 .mtl）
-
-//     void loadObj(const std::string& obj_path) {
-//         tinyobj::ObjReaderConfig reader_config;
-//         reader_config.mtl_search_path = ""; // 暂时不用 MTL
-
-//         tinyobj::ObjReader reader;
-
-//         if (!reader.ParseFromFile(obj_path, reader_config)) {
-//             if (!reader.Error().empty()) {
-//                 std::cerr << "TinyObjReader: " << reader.Error() << std::endl;
-//             }
-//             return;
-//         }
-
-//         if (!reader.Warning().empty()) {
-//             std::cerr << "TinyObjReader: " << reader.Warning() << std::endl;
-//         }
-
-//         const tinyobj::attrib_t& attrib = reader.GetAttrib();
-//         const std::vector<tinyobj::shape_t>& shapes = reader.GetShapes();
-//         // const std::vector<tinyobj::material_t>& materials = reader.GetMaterials(); // 暂时不用
-
-//         // 遍历每个 shape
-//         for (size_t s = 0; s < shapes.size(); ++s) {
-//             size_t index_offset = 0;
-//             const auto& mesh = shapes[s].mesh;
-
-//             for (size_t f = 0; f < mesh.num_face_vertices.size(); ++f) {
-//                 size_t fv = static_cast<size_t>(mesh.num_face_vertices[f]);
-//                 if (fv != 3) {
-//                     // 非三角形面，简单跳过（或者做三角化）
-//                     index_offset += fv;
-//                     continue;
-//                 }
-
-//                 Vector3f v[3];
-
-//                 // 读取 3 个顶点
-//                 for (size_t k = 0; k < 3; ++k) {
-//                     tinyobj::index_t idx = mesh.indices[index_offset + k];
-//                     float vx = attrib.vertices[3 * idx.vertex_index + 0];
-//                     float vy = attrib.vertices[3 * idx.vertex_index + 1];
-//                     float vz = attrib.vertices[3 * idx.vertex_index + 2];
-//                     v[k] = Vector3f(vx, vy, vz);
-//                 }
-
-//                 index_offset += fv;
-
-//                 // 创建 Triangle（暂时不用 UV）
-//                 Triangle* tri = new Triangle(v[0], v[1], v[2], material);
-//                 triangles.push_back(tri);
-//             }
-//         }
-
-//         Vector3f min_v( std::numeric_limits<float>::max());
-//         Vector3f max_v(-std::numeric_limits<float>::max());
-
-//         for (auto tri : triangles) {
-//             const Vector3f& a = tri->getV0();
-//             const Vector3f& b = tri->getV1();
-//             const Vector3f& c = tri->getV2();
-//             auto update = [&](const Vector3f& p) {
-//                 min_v.x = std::min(min_v.x, p.x);
-//                 min_v.y = std::min(min_v.y, p.y);
-//                 min_v.z = std::min(min_v.z, p.z);
-//                 max_v.x = std::max(max_v.x, p.x);
-//                 max_v.y = std::max(max_v.y, p.y);
-//                 max_v.z = std::max(max_v.z, p.z);
-//             };
-//             update(a); update(b); update(c);
-//         }
-
-//         std::cout << "Mesh AABB: min(" << min_v.x << ", " << min_v.y << ", " << min_v.z
-//                   << "), max(" << max_v.x << ", " << max_v.y << ", " << max_v.z << ")\n";
-
-//         std::cout << "Loaded OBJ: " << obj_path
-//                   << " with " << triangles.size() << " triangles." << std::endl;
-//     }
-// };
 #pragma once
 
 #include <string>
@@ -244,43 +119,84 @@ private:
         const std::vector<tinyobj::shape_t>& shapes = reader.GetShapes();
         const std::vector<tinyobj::material_t>& obj_materials = reader.GetMaterials();
 
-        // 1) 创建 Material 列表
         // materials.reserve(obj_materials.size());
         // for (size_t i = 0; i < obj_materials.size(); ++i) {
         //     const auto& m = obj_materials[i];
         //     Vector3f kd(m.diffuse[0], m.diffuse[1], m.diffuse[2]);
+        //     if (obj_path_.find("veach-mis") != std::string::npos) {
+        //         bool is_specular_like = (m.specular[0] > 0.0f || m.specular[1] > 0.0f || m.specular[2] > 0.0f)
+        //                                 && (kd.x == 0.0f && kd.y == 0.0f && kd.z == 0.0f);
+        //         if (is_specular_like) {
+        //             kd = Vector3f(0.5f, 0.5f, 0.5f); // 或者更亮一点
+        //         }
+        //     }
         //     Material* mat = new Material(kd, Vector3f(0.0f), MaterialType::DIFFUSE);
 
-        //     // 如果是 Light1，根据 scene.xml 设置 emission
-        //     // if (m.name == "Light1") {
-        //     //     // radiance = 34,24,8
-        //     //     mat->m_emission = Vector3f(34.0f, 24.0f, 8.0f);
-        //     //     mat->m_two_sided = true;
-        //     // }
+        //     // 根据场景和材质名设置 emission
+        //     if (obj_path_.find("cornell-box") != std::string::npos) {
+        //         if (m.name == "Light1") {
+        //             mat->m_emission = Vector3f(34.0f, 24.0f, 8.0f);
+        //             mat->m_two_sided = true;
+        //         }
+        //     } else if (obj_path_.find("veach-mis") != std::string::npos) {
+        //         if (m.name == "Light1") {
+        //             mat->m_emission = Vector3f(2.0f, 2.0f, 5.0f);
+        //             mat->m_two_sided = true;
+        //         } else if (m.name == "Light2") {
+        //             mat->m_emission = Vector3f(40.0f, 50.0f, 20.0f);
+        //             mat->m_two_sided = true;
+        //         } else if (m.name == "Light3") {
+        //             mat->m_emission = Vector3f(500.0f, 200.0f, 200.0f);
+        //             mat->m_two_sided = true;
+        //         }
+        //     } else if (obj_path_.find("living-room") != std::string::npos) {
+        //         if (m.name == "Light1") {
+        //             mat->m_emission = Vector3f(10.0f, 8.0f, 5.0f);
+        //             mat->m_two_sided = true;
+        //         }
+        //     }
 
-        //     if (m.name == light_mtl_name) {
-        //         mat->m_emission = light_radiance;
-        //         mat->m_two_sided = true;
+        //     if (!m.diffuse_texname.empty()) {
+        //         std::string tex_path = basedir + "/" + m.diffuse_texname;
+        //         mat->loadTexture(tex_path);
         //     }
 
         //     mtlname_to_id[m.name] = static_cast<int>(i);
         //     materials.push_back(mat);
         // }
-
         materials.reserve(obj_materials.size());
         for (size_t i = 0; i < obj_materials.size(); ++i) {
             const auto& m = obj_materials[i];
             Vector3f kd(m.diffuse[0], m.diffuse[1], m.diffuse[2]);
+
+            MaterialType mat_type = MaterialType::DIFFUSE;
+
+            Material* mat = nullptr;
+
             if (obj_path_.find("veach-mis") != std::string::npos) {
-                bool is_specular_like = (m.specular[0] > 0.0f || m.specular[1] > 0.0f || m.specular[2] > 0.0f)
-                                        && (kd.x == 0.0f && kd.y == 0.0f && kd.z == 0.0f);
-                if (is_specular_like) {
-                    kd = Vector3f(0.5f, 0.5f, 0.5f); // 或者更亮一点
+                // veach-mis: Smooth/Glossy/Rough/SuperRough 是镜面材质
+                bool has_specular = (m.specular[0] > 0.0f || m.specular[1] > 0.0f || m.specular[2] > 0.0f);
+                bool is_diffuse   = (kd.x > 0.0f || kd.y > 0.0f || kd.z > 0.0f);
+
+                if (has_specular && !is_diffuse) {
+                    // 镜面类：用 PHONG 模型
+                    mat_type = MaterialType::PHONG;
+                    // 给一个微弱漫反射成分（避免完全黑）
+                    kd = Vector3f(0.02f, 0.02f, 0.02f);
                 }
             }
-            Material* mat = new Material(kd, Vector3f(0.0f), MaterialType::DIFFUSE);
 
-            // 根据场景和材质名设置 emission
+            mat = new Material(kd, Vector3f(0.0f), mat_type);
+
+            // 对 PHONG 材质设置 specular 和 exponent
+            if (mat_type == MaterialType::PHONG) {
+                mat->m_specular = Vector3f(m.specular[0], m.specular[1], m.specular[2]);
+                // Ns 直接用作指数会很大，适当压缩一下
+                float Ns = m.shininess; // tinyobj 里 Ns 在 shininess 字段
+                mat->m_phong_exp = std::max(1.0f, Ns * 0.25f);
+            }
+
+            // 根据场景和材质名设置 emission（你原来的逻辑）
             if (obj_path_.find("cornell-box") != std::string::npos) {
                 if (m.name == "Light1") {
                     mat->m_emission = Vector3f(34.0f, 24.0f, 8.0f);
@@ -312,6 +228,7 @@ private:
             mtlname_to_id[m.name] = static_cast<int>(i);
             materials.push_back(mat);
         }
+
 
         // 2) 构建三角形，并绑定正确的材质
         for (size_t s = 0; s < shapes.size(); ++s) {

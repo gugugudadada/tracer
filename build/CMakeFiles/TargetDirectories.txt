@@ -1,4 +1,0 @@
-/Users/guyan2/projects/tracer_gpt/build/CMakeFiles/path_tracer.dir
-/Users/guyan2/projects/tracer_gpt/build/CMakeFiles/test_external.dir
-/Users/guyan2/projects/tracer_gpt/build/CMakeFiles/edit_cache.dir
-/Users/guyan2/projects/tracer_gpt/build/CMakeFiles/rebuild_cache.dir
